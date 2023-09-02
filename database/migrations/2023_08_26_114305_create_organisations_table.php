@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('address');
             $table->string('phone_number');
+            $table->string('status');
             $table->string('industry')->nullable();
             $table->string('website')->nullable();
             $table->integer('user_id')->unsigned();

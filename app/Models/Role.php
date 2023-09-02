@@ -16,5 +16,14 @@ class Role extends Model
         return $this->hasOne(User::class);
     }
 
+
+    /* 
+    role id 
+    1 = admin
+    2 = organisations
+    3 = employees
+    4 = hiring managers
+     
+    */
     
 }

@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Organisation extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','description','address','phone_number','industry','website','user_id'];
-
+    protected $fillable = ['name','description','address','phone_number','industry','website','user_id','email','status'];
+    public function user(){
+        return $this->belongsTo(User::class,'user_id','id');
+    }
     public function employee(){
         return $this->hasMany(Employee::class,'current_organisation_id','id');
     }
