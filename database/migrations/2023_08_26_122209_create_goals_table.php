@@ -18,8 +18,14 @@ return new class extends Migration
             $table->integer('employee_id')->unsigned();
             $table->foreign('employee_id')->references('id')->on('employees');
             $table->text('description')->nullable();
+            $table->string('goal_name');
+            $table->integer('year');
+            $table->integer('quarter_id');
+            $table->integer('expected_days');
+            $table->integer('delivered_days');
             $table->string('status');
-            $table->date('deadline');
+            $table->boolean('completed_on_time');
+            $table->integer('weight'); //ranges 1-5;
             $table->timestamps();
         });
     }

@@ -22,14 +22,29 @@ class EmployeeController extends Controller
     }
 
     public function list(){
+        $user = auth()->user();
+        $isAdmin = true;
         $employees = $this->employeeService->findAll();
         $departments = Department::all();
         $status='approve';
+        $organisation=null;
         $organisations = $this->organisationService->findByStatus($status);
-        return view('employees.list',compact('employees','departments','organisations'));
+        if($user?->role->id ==env("ORGANISATION_ROLE") || $user?->role->id == env("HIRING_MANAGER_ROLE")){
+            $isAdmin = false;
+            if($user?->role->id==env("HIRING_MANAGER_ROLE")){
+                $employees = $this->employeeService->findByOrganisation($user->hiringManager->organisation_id);
+                $organisation = $this->organisationService->findById($user->hiringManager->organisation_id);
+            }
+            else{
+                $employees = $this->employeeService->findByOrganisation($user->organisation->id);
+                $organisation = $this->organisationService->findById($user->organisation->id);
+            }
+            
+        }
+        return view('employees.list',compact('employees','departments','organisations','organisation','isAdmin'));
     }
 
-    public function create(Request $request){
+    public function createEmployee(Request $request){
         $role = env("EMPLOYEE_ROLE");
         $user = $this->userService->createUserOthers($request,$role);
         $data = $request->validate([
@@ -44,10 +59,22 @@ class EmployeeController extends Controller
         ]);
         $savedUser = $this->userService->findByEmail($request->email);
         $data['user_id']=$savedUser->id;
+        $data['bio']=$request->bio;
         $saveEmployee = $this->employeeService->create($data);
         return redirect('/employees')->with(['alert-type'=>'success', 'message'=>'Employee has been successfully created']);
 
         
+    }
+    public function getEmployees($organisationId){
+        $employees = $this->employeeService->findByOrganisation($organisationId);
+        $data = array();
+        foreach ($employees as $employee) {
+            $employeeData = array();
+            $employeeData['name'] = $employee->user->first_name . ' ' . $employee->user->last_name;
+            $employeeData['id'] = $employee->id;
+            $data[] = $employeeData;
+        }
+        return response()->json($data);
     }
     
 }

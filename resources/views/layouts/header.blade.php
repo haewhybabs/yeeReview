@@ -50,16 +50,16 @@
                         <nav>
                             <ul class="metismenu" id="menu">
                                 <li><a href="maps.html"><i class="ti-dashboard"></i> <span>Dashboard</span></a></li>
-                                <li><a href="maps.html"><i class="ti-receipt"></i> <span>Hiring Managers</span></a></li>
+                                <li><a href="{{ URL::TO("hiring-managers") }}"><i class="ti-receipt"></i> <span>Hiring Managers</span></a></li>
                                 <li><a href="{{ URL::TO("organisations") }}"><i class="ti-palette"></i> <span>Organisations</span></a></li>
                                 <li><a href="{{ URL::TO("employees") }}"><i class="fa fa-user"></i> <span>Employees</span></a></li>
-                                <li><a href="maps.html"><i class="ti-layout-sidebar-left"></i> <span>Recruitment</span></a></li>
+                                <li><a href="{{ URL::TO("recruitments") }}"><i class="ti-layout-sidebar-left"></i> <span>Recruitment</span></a></li>
                                 <li>
                                     <a href="javascript:void(0)" aria-expanded="true"><i class="ti-dashboard"></i><span>Reviews</span></a>
                                     <ul class="collapse">
-                                        <li><a href="index.html">Goals</a></li>
-                                        <li><a href="index.html">Reviews</a></li>
-                                        <li class="active"><a href="index2.html">Feedbacks</a></li>
+                                        <li><a href="{{ URL::TO("goals") }}">Goals</a></li>
+                                        <li><a href="{{ URL::TO("performance-reviews") }}">Reviews</a></li>
+                                        {{-- <li class="active"><a href="index2.html">Feedbacks</a></li> --}}
                                     </ul>
                                 </li>
 
@@ -69,16 +69,16 @@
                     @elseif (auth()->user()->role_id==env('ORGANISATION_ROLE'))
                         <nav>
                             <ul class="metismenu" id="menu">
-                                <li><a href="maps.html"><i class="ti-dashboard"></i> <span>Dashboard</span></a></li>
-                                <li><a href="maps.html"><i class="ti-receipt"></i> <span>Hiring Managers</span></a></li>
-                                <li><a href="maps.html"><i class="fa fa-user"></i> <span>Employees</span></a></li>
-                                <li><a href="maps.html"><i class="ti-layout-sidebar-left"></i> <span>Recruitment</span></a></li>
+                                <li><a href="{{ URL::TO("dashboard") }}"><i class="ti-dashboard"></i> <span>Dashboard</span></a></li>
+                                <li><a href="{{ URL::TO("hiring-managers") }}"><i class="ti-receipt"></i> <span>Hiring Managers</span></a></li>
+                                <li><a href="{{ URL::TO("employees") }}"><i class="fa fa-user"></i> <span>Employees</span></a></li>
+                                <li><a href="{{ URL::TO("recruitments") }}"><i class="ti-layout-sidebar-left"></i> <span>Recruitment</span></a></li>
                                 <li>
                                     <a href="javascript:void(0)" aria-expanded="true"><i class="ti-dashboard"></i><span>Reviews</span></a>
                                     <ul class="collapse">
-                                        <li><a href="index.html">Goals</a></li>
-                                        <li><a href="index.html">KPI Reviews</a></li>
-                                        <li class="active"><a href="index2.html">Feedbacks</a></li>
+                                        <li><a href="{{ URL::TO("goals") }}">Goals</a></li>
+                                        <li><a href="{{ URL::TO("performance-reviews") }}">Reviews</a></li>
+                                        {{-- <li class="active"><a href="index2.html">Feedbacks</a></li> --}}
                                     </ul>
                                 </li>
 
@@ -89,19 +89,10 @@
                         <nav>
                             <ul class="metismenu" id="menu">
                                 <li><a href="maps.html"><i class="ti-dashboard"></i> <span>Dashboard</span></a></li>
-                                <li><a href="maps.html"><i class="ti-receipt"></i> <span>Hiring Managers</span></a></li>
-                                <li><a href="maps.html"><i class="ti-palette"></i> <span>Organisations</span></a></li>
-                                <li><a href="maps.html"><i class="fa fa-user"></i> <span>Employees</span></a></li>
-                                <li><a href="maps.html"><i class="ti-layout-sidebar-left"></i> <span>Recruitment</span></a></li>
-                                <li>
-                                    <a href="javascript:void(0)" aria-expanded="true"><i class="ti-dashboard"></i><span>Reviews</span></a>
-                                    <ul class="collapse">
-                                        <li><a href="index.html">Goals</a></li>
-                                        <li><a href="index.html">Reviews</a></li>
-                                        <li class="active"><a href="index2.html">Feedbacks</a></li>
-                                    </ul>
-                                </li>
-
+                                <li><a href="{{ URL::TO("employee/goals") }}"><i class="ti-receipt"></i> <span>Goals</span></a></li>
+                                <li><a href="{{ URL::TO("employee/organisations") }}"><i class="ti-palette"></i> <span>Organisations</span></a></li>
+                                <li><a href="{{ URL::TO("employee/recruitments") }}"><i class="ti-layout-sidebar-left"></i> <span>Recruitment</span></a></li>
+                                <li><a href="{{ URL::TO("employee/reviews") }}"><i class="ti-layout-sidebar-left"></i> <span>Reviews</span></a></li>
                                 <li><a href="{{ URL::TO('signout') }}"><i class="fa fa-sign-out"></i> <span>Signout</span></a></li>
                             </ul>
                         </nav>
@@ -109,19 +100,9 @@
                         <nav>
                             <ul class="metismenu" id="menu">
                                 <li><a href="maps.html"><i class="ti-dashboard"></i> <span>Dashboard</span></a></li>
-                                <li><a href="maps.html"><i class="ti-receipt"></i> <span>Hiring Managers</span></a></li>
-                                <li><a href="maps.html"><i class="ti-palette"></i> <span>Organisations</span></a></li>
-                                <li><a href="maps.html"><i class="fa fa-user"></i> <span>Employees</span></a></li>
-                                <li><a href="maps.html"><i class="ti-layout-sidebar-left"></i> <span>Recruitment</span></a></li>
-                                <li>
-                                    <a href="javascript:void(0)" aria-expanded="true"><i class="ti-dashboard"></i><span>Reviews</span></a>
-                                    <ul class="collapse">
-                                        <li><a href="index.html">Goals</a></li>
-                                        <li><a href="index.html">Reviews</a></li>
-                                        <li class="active"><a href="index2.html">Feedbacks</a></li>
-                                    </ul>
-                                </li>
-
+                                <li><a href="{{ URL::TO("hiring-manager/view") }}"><i class="ti-receipt"></i> <span>Hiring Manager</span></a></li>
+                                <li><a href="{{ URL::TO("hiring-manager/employee") }}"><i class="fa fa-user"></i> <span>Employees</span></a></li>
+                                <li><a href="{{ URL::TO("recruitments") }}"><i class="ti-layout-sidebar-left"></i> <span>Recruitment</span></a></li>
                                 <li><a href="{{ URL::TO('signout') }}"><i class="fa fa-sign-out"></i> <span>Signout</span></a></li>
                             </ul>
                         </nav>

@@ -43,7 +43,7 @@ class UserService
 
     public function createUserOthers($request,$role){
         $register = $request->validate([
-            'password' => 'required|min:8|confirmed',
+            'password' => 'required|min:8',
             'email'=>'required|email|unique:users',
             'first_name'=>'required',
             'last_name'=>'required',

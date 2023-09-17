@@ -14,10 +14,10 @@ class Employee extends Model
         return $this->belongsTo(User::class);
     }
     public function organisation(){
-        return $this->hasMany(Organisation::class,'employee_id','id');
+        return $this->belongsTo(Organisation::class,'current_organisation_id','id');
     }
 
     public function department(){
-        return $this->hasMany(Department::class,'department_id','id');
+        return $this->belongsTo(Department::class,'department_id','id');
     }
 }

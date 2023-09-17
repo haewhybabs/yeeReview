@@ -18,11 +18,13 @@ return new class extends Migration
             $table->integer('employee_id')->unsigned();
             $table->foreign('employee_id')->references('id')->on('employees');
             $table->date('review_date');
-            $table->integer('rating');
-            $table->text('organisation_comment');
-            $table->text('employee_comment');
-            $table->integer('criteria_id')->unsigned();
-            $table->foreign('criteria_id')->references('id')->on('review_criterias');
+            $table->float('computed_rating');
+            $table->integer('year');
+            $table->integer('quarter_id');
+            $table->string('reviewer_rating');
+            $table->text('organisation_comment')->nullable();
+            $table->text('employee_comment')->nullable();
+            $table->string('national_id');
             $table->timestamps();
         });
     }

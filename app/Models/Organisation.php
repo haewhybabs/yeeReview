@@ -13,7 +13,7 @@ class Organisation extends Model
         return $this->belongsTo(User::class,'user_id','id');
     }
     public function employee(){
-        return $this->hasMany(Employee::class,'current_organisation_id','id');
+        return $this->hasOne(Employee::class,'current_organisation_id','id');
     }
     public function performanceReview(){
         return $this->hasMany(PerformanceReview::class,'organisation_id','id');

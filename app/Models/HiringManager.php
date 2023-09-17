@@ -11,7 +11,11 @@ class HiringManager extends Model
     protected $fillable = ['user_id','organisation_id','description','department','status'];
 
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,);
+    }
+
+    public function organisation(){
+        return $this->belongsTo(Organisation::class,'organisation_id','id');
     }
 
     public function recruitment(){

@@ -25,11 +25,13 @@
                             <div class="col-6">
                                 <h4 class="header-title">All Employees</h4>
                             </div>
-                            <div class="col-6 text-right">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createEmployee">
-                                    Create Employee
-                                </button>
-                            </div>
+                            @if(auth()->user()->role_id == env("ADMIN_ROLE") || auth()->user()->role_id == env("ORGANISATION_ROLE "))
+                                <div class="col-6 text-right">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createEmployee">
+                                        Create Employee
+                                    </button>
+                                </div>
+                            @endif
                         </div><br>
                         <div class="data-tables">
                             <table id="dataTable" class="text-center">
@@ -48,6 +50,7 @@
                                     <tr>
                                         <td>{{ $employee->user?->first_name }} {{ $employee->user?->last_name }}</td>
                                         <td>{{ $employee->user?->email }}</td>
+                                        
                                         <td>{{ $employee->department?->name }}</td>
                                         <td>{{ $employee->organisation?->name }}</td>
                                         <td>
@@ -78,9 +81,25 @@
                                       
                                             <!-- Modal body -->
                                             <div class="modal-body">
+                                                <p>Name: {{ $employee->user->first_name }} {{ $employee->user->last_name }}</p>
+                                                <p>Phone number: {{ $employee->phone_number }}</p>
+                                                <p>Email: {{ $employee->user->email }}</p>
+                                                <p>Address: {{ $employee->address }}</p>
+                                                <p>Marital Status: {{ $employee->marital_status }}</p>
+                                                <p>National Id: {{ $employee->national_id }}</p>
+                                                <p>Current Organisation: {{ $employee->organisation->name }}</p>
+                                                <p>Job Role: {{ $employee->position }}</p>
+                                                <p>Department: {{ $employee->department->name }}</p>
+                                                <p>Bio: {{ $employee->bio }}</p>
+  
+                                                <hr/>
+                                                @if($isAdmin || auth()->user()->role_id == env("HIRING_MANAGER_ROLE"))
+                                                    <div class="row margin-align">
+                                                        <button class="btn btn-primary">View Employee Reviews</button>
+                                                    </div>
+                                                @endif
                                               
-                                            
-                                            </div>
+                                              </div>
                                       
                                             <!-- Modal footer -->
                                             <div class="modal-footer">
@@ -116,7 +135,8 @@
   
         <!-- Modal body -->
         <div class="modal-body">
-          <form>
+          <form method="POST" action="{{ URL::TO('create-employee') }}">
+            @csrf
             <h5>Account Authentication </h5><br>
             <div class="row">
                 <div class="form-group col-6">
@@ -168,8 +188,8 @@
 
             <div class="row">
                 <div class="form-group col-6">
-                    <label>Position</label>
-                    <input type="text" class="form-control" name="position" required />
+                    <label>Employee Bio</label>
+                    <textarea class="form-control" rows="5" name="required"></textarea>
                 </div>
                 <div class="form-group col-6">
                     <label>Deparments</label>
@@ -193,20 +213,26 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="form-group col-6">
-                    <label>Employee Bio</label>
-                    <textarea class="form-control" rows="5" name="required"></textarea>
+            @if($isAdmin)
+                <div class="row">
+                    
+                    <div class="form-group col-6">
+                        <label>Select Organisation</label>
+                        <select  name="current_organisation_id" class="form-control">
+                            @foreach ($organisations as $organisation )
+                                <option value="{{ $organisation->id }}">{{ $organisation->name }}</option>
+                            @endforeach
+                            
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group col-6">
-                    <label>Select Organisation</label>
-                    <select  name="current_organisation_id" class="form-control">
-                        @foreach ($organisations as $organisation )
-                            <option value="{{ $organisation->id }}">{{ $organisation->name }}</option>
-                        @endforeach
-                        
-                    </select>
-                </div>
+            @else
+                <input type="hidden" name="current_organisation_id" value="{{ $organisation->id }}" />
+            @endif
+
+            <hr />
+            <div class="text-center">
+                <button class="btn btn-primary" type="submit">Submit</button>
             </div>
           </form>
         
@@ -219,5 +245,5 @@
   
       </div>
     </div>
-  </div>
+</div>
 @endsection

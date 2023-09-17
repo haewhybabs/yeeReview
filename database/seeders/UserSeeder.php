@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
             'last_name'=>'User',
             'email'=>'admin@admin.com',
             'password'=>bcrypt('password'),
-            'role_id'=>1,
+            'role_id'=>env("ADMIN_ROLE"),
             
         ]);
         DB::table('users')->insert([
@@ -26,21 +26,35 @@ class UserSeeder extends Seeder
             'last_name'=>'User',
             'email'=>'employee@gmail.com',
             'password'=>bcrypt('password'),
-            'role_id'=>3,
+            'role_id'=>env("EMPLOYEE_ROLE"),
+        ]);
+        DB::table('users')->insert([
+            'first_name'=>'Employee2',
+            'last_name'=>'User2',
+            'email'=>'employee2@gmail.com',
+            'password'=>bcrypt('password'),
+            'role_id'=>env("EMPLOYEE_ROLE"),
         ]);
         DB::table('users')->insert([
             'first_name'=>'Organisation',
-            'last_name'=>'User',
+            'last_name'=>'User4',
             'email'=>'organisation@gmail.com',
             'password'=>bcrypt('password'),
-            'role_id'=>2,
+            'role_id'=>env("ORGANISATION_ROLE"),
+        ]);
+        DB::table('users')->insert([
+            'first_name'=>'Organisation2',
+            'last_name'=>'User5',
+            'email'=>'organisation2@gmail.com',
+            'password'=>bcrypt('password'),
+            'role_id'=>env("ORGANISATION_ROLE"),
         ]);
         DB::table('users')->insert([
             'first_name'=>'Hiring',
             'last_name'=>'Manager',
             'email'=>'hiring@gmail.com',
             'password'=>bcrypt('password'),
-            'role_id'=>4,
+            'role_id'=>env("HIRING_MANAGER_ROLE"),
         ]);
     }
 }

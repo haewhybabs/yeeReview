@@ -15,7 +15,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\GoalController;
+use App\Http\Controllers\HiringManagerController;
 use App\Http\Controllers\OrganisationController;
+use App\Http\Controllers\PerformanceReviewController;
+use App\Http\Controllers\RecruitmentController;
+use App\Models\HiringManager;
 
 Route::get('/', [AuthController::class, 'index']);
 Route::get('/login', [AuthController::class, 'index'])->name('login');
@@ -30,12 +35,47 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard',[DashboardController::class,'index']);
     Route::post('/organisation-signup-step2', [AuthController::class, 'handleOrganisationSignup2']);
 
-    Route::get('/organisations',[OrganisationController::class,'list']);
-    Route::post('/update-organisation-status',[OrganisationController::class, 'updateOrganisationStatus']);
+
+    //Hiring Managers
+    Route::get('/hiring-manager/view',[HiringManagerController::class,'hiringView']);
+    Route::post('/update-hiring-manager',[HiringManagerController::class,'updateHiringManager']);
+    Route::get('/hiring-manager/employee',[EmployeeController::class,'list']);
+    Route::get('/recruitments',[RecruitmentController::class,'list']);
+});
+
+Route::middleware(['role:admin,organisation'])->group(function () {
+    // specifically to admin and organisation go here
+    Route::post('/create-hiring-manager',[HiringManagerController::class,'createHiringManager']);
+    Route::post('/create-employee',[EmployeeController::class,'createEmployee']);
+    Route::post('/create-goal',[GoalController::class,'createGoal']);
+    Route::post('/create-review', [PerformanceReviewController::class,'createReview']);
 
     Route::get('/employees',[EmployeeController::class,'list']);
+    Route::get('/hiring-managers',[HiringManagerController::class,'list']);
+    Route::get('/goals',[GoalController::class,'list']);
+    Route::get('/get-employees/{organizationId}', [EmployeeController::class,'getEmployees']);
 
+    Route::get('/performance-reviews', [PerformanceReviewController::class,'list']);
+   
+
+
+});
+
+Route::middleware(['role:organisations'])->group(function () {
+    //specifically for organisation
+   
     
+
+});
+
+
+
+Route::middleware(['role:admin'])->group(function () {
+    //specifically for admin goes here
+    Route::post('/update-organisation-status',[OrganisationController::class, 'updateOrganisationStatus']);
+
+    Route::get('/organisations',[OrganisationController::class,'list']);
+
 });
 
 

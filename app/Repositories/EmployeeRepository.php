@@ -20,7 +20,7 @@ class EmployeeRepository
     }
     
     public function findByOrganisationId($organisationId){
-        return Employee::where('organisation_id',$organisationId)->get();
+        return Employee::where('current_organisation_id',$organisationId)->get();
     }
     public function findByNationalId($nationalId){
         return Employee::where('national_id',$nationalId)->get();

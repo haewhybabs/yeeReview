@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('recruitments', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('organisation_id')->unsigned();
+            $table->string('candidate_name')->nullable();
             $table->foreign('organisation_id')->references('id')->on('organisations');
-            $table->integer('employee_id')->unsigned();
-            $table->foreign('employee_id')->references('id')->on('employees');
-            $table->string('decision_status');
+            $table->string('national_id')->nullable();
+            $table->string('decision_status')->nullable();
             $table->integer('hiring_manager_id')->unsigned();
             $table->foreign('hiring_manager_id')->references('id')->on('hiring_managers');
             $table->timestamps();

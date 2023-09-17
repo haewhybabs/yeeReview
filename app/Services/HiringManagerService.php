@@ -40,5 +40,8 @@ class HiringManagerService
     public function findById($id){
         return $this->hiringManagerRepository->findById($id);
     }
+    public function findAll(){
+        return $this->hiringManagerRepository->findAll();
+    }
 }
 ?>
