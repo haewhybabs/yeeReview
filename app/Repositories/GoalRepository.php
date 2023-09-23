@@ -40,7 +40,7 @@ class GoalRepository
         return Goal::where('organisation_id',$organisationId)->get();
     }
     public function findByEmployeeId($employeeId){
-        return Goal::where('employee',$employeeId)->get();
+        return Goal::where('employee_id',$employeeId)->get();
     }
 
     public function filterGoals($employeeId,$organisationId){

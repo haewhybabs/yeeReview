@@ -44,5 +44,9 @@ class EmployeeService
     public function findById($id){
         return $this->employeeRepository->findById($id);
     }
+    public function findByNationalId($nationalId){
+        return $this->employeeRepository->findByNationalId($nationalId);
+    }
+   
 }
 ?>

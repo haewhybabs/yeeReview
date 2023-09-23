@@ -24,15 +24,15 @@
                         <div class="row">
                             <div class="col-6">
                                 <h4 class="header-title">All Goals</h4>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filterGoals">
+                                {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filterGoals">
                                     Filter
-                                </button>
+                                </button> --}}
                             </div>
-                            <div class="col-6 text-right">
+                            {{-- <div class="col-6 text-right">
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createGoal">
                                     Create Goal
                                 </button>
-                            </div>
+                            </div> --}}
                         </div><br>
                         <div class="data-tables">
                             <table id="dataTable" class="text-center">
@@ -92,7 +92,8 @@
                                                 <p>Delivered Days: {{ $goal->delivered_days }}</p>
                                                 <p>Status: {{ $goal->status }}</p>
                                                 <p>Weight: {{ $goal->weight }}</p>
-                                            </div>
+                                              
+                                              </div>
                                       
                                             <!-- Modal footer -->
                                             <div class="modal-footer">
@@ -116,139 +117,6 @@
 </div>
 
 {{-- modal --}}
-<div class="modal" id="createGoal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-  
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Create Goal</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-  
-        <!-- Modal body -->
-        <div class="modal-body">
-          <form method="POST" action="{{ URL::TO('create-goal') }}">
-            @csrf
-            <h5>Goals Info</h5><br>
-            <div class="row">
-                <div class="form-group col-6">
-                    <label>Title</label>
-                    <input type="text" class="form-control" name="goal_name" required />
-                </div>
-                <div class="form-group col-6">
-                    <label>Description</label>
-                    <input type="text" class="form-control" name="description" required  />
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group col-6">
-                    <label>Year</label>
-                    <input type="number" class="form-control" name="year" required  value="{{ date("Y") }}"/>
-                </div>
-                <div class="form-group col-6">
-                    <label>Select Quarter</label>
-                    <select  name="quarter_id" class="form-control">
-                        @foreach ($quarters as $quarter )
-                            <option value="{{ $quarter->id }}">{{ $quarter->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            <hr />
-            <h5>Goal Delivery Details</h5><br>
-            <div class="row">
-                <div class="form-group col-6">
-                    <label>Expected Days</label>
-                    <input type="number" class="form-control" name="expected_days" required />
-                </div>
-                <div class="form-group col-6">
-                    <label>Delivered Days</label>
-                    <input type="number" class="form-control" name="delivered_days"  required />
-                </div>
-
-               
-            </div>
-
-            <div class="row">
-                <div class="form-group col-6">
-                    <label>Weight</label>
-                    <select  name="weight" class="form-control">
-                        @for ($i =1 ; $i <= 5; $i++)
-                            <option value="{{ $i }}">{{ $i }}</option>
-                        @endfor
-                    </select>
-                </div>
-                <div class="form-group col-6">
-                    <label>Select Status</label>
-                    <select  name="status" class="form-control">
-                        <option value="completed">Completed</option>
-                        <option value="pending">Pending</option>
-                        <option value="inprogress">In Progress</option> 
-                    </select>
-                </div>
-                
-            </div>
-            @if($isAdmin)
-                <div class="row">
-                    
-                    <div class="form-group col-6">
-                        <label>Select Organisation</label>
-                        <select name="organisation_id" id="organisation-select" class="form-control">
-                            <option value="{{ 0 }}">Select Organisation</option>
-                            @foreach ($organisations as $organisation )
-                                <option value="{{ $organisation->id }}">{{ $organisation->name }}</option>
-                            @endforeach
-                            
-                        </select>
-                    </div>
-
-                    <div class="form-group col-6">
-                        <label>Select Employee</label>
-                        <select name="employee_id" id="employee-select" class="form-control">
-                            <!-- Options will be populated dynamically using JavaScript -->
-                        </select>
-                    </div>
-                </div>
-            @else
-                <div class="row">
-                    <div class="col-6">
-                        <input type="hidden" name="organisation_id" value="{{ $organisation->id }}"/>
-                        <div class="form-group">
-                            
-                            <select name="employee_id" class="form-control">
-                                <option value="0">Select Employee</option>
-                                @foreach ($employees as $employee )
-                                    <option value="{{ $employee->id }}">{{ $employee->user->first_name}} {{ $employee->user->last_name }}</option>
-                                @endforeach
-                                <!-- Options will be populated dynamically using JavaScript -->
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
-
-        
-            <hr />
-            <div class="text-center">
-                <button class="btn btn-primary" type="submit">Submit</button>
-            </div>
-          </form>
-        
-        </div>
-  
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        </div>
-  
-      </div>
-    </div>
-</div>
-
-
 
 <div class="modal" id="filterGoals">
     <div class="modal-dialog">

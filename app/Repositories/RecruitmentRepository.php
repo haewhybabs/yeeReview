@@ -38,5 +38,20 @@ class RecruitmentRepository
     public function findByOrganisationId($organisationId){
         return Recruitment::where('organisation_id',$organisationId)->get();
     }
+    public function filterRecruitments($nationalId,$organisationId){
+        $query = Recruitment::query();
+
+        if($nationalId){
+            $query->where('national_id',$nationalId);
+        }
+
+        if($organisationId){
+            $query->where('organisation_id',$organisationId);
+        }
+
+        $recruitments = $query->get();
+
+        return $recruitments;
+    }
 }
 ?>

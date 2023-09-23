@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Recruitment extends Model
 {
     use HasFactory;
-    protected $fillable = ['national_id','organisation_id','decision_status','hiring_manager_id'];
+    protected $fillable = ['national_id','organisation_id','decision_status','hiring_manager_id','candidate_name'];
 
     public function organisation(){
         return $this->belongsTo(Organisation::class,'organisation_id','id');

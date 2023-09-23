@@ -41,6 +41,18 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update-hiring-manager',[HiringManagerController::class,'updateHiringManager']);
     Route::get('/hiring-manager/employee',[EmployeeController::class,'list']);
     Route::get('/recruitments',[RecruitmentController::class,'list']);
+    Route::post('/create-recruitment',[RecruitmentController::class,'create']);
+
+    Route::get('/performance-reviews', [PerformanceReviewController::class,'list']);
+    Route::get('/update-recruitment-status', [RecruitmentController::class,'updateRecruitmentStatus']);
+
+    //Employee
+
+    Route::get('/employee/goals',[GoalController::class,'employeeList']);
+    Route::get('/employee/organisations',[OrganisationController::class,'employeeOrganisationList']);
+    Route::get('/employee/recruitments',[RecruitmentController::class,'employeeRecruitmentList']);
+    Route::get('/employee/performance-reviews',[PerformanceReviewController::class,'employeePerformanceList']);
+    Route::post('/employee/self-review',[PerformanceReviewController::class,'handleSelfReview']);
 });
 
 Route::middleware(['role:admin,organisation'])->group(function () {
@@ -55,18 +67,12 @@ Route::middleware(['role:admin,organisation'])->group(function () {
     Route::get('/goals',[GoalController::class,'list']);
     Route::get('/get-employees/{organizationId}', [EmployeeController::class,'getEmployees']);
 
-    Route::get('/performance-reviews', [PerformanceReviewController::class,'list']);
+    // Route::get('/performance-reviews', [PerformanceReviewController::class,'list']);
    
 
 
 });
 
-Route::middleware(['role:organisations'])->group(function () {
-    //specifically for organisation
-   
-    
-
-});
 
 
 

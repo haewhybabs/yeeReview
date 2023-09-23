@@ -1,3 +1,4 @@
+
 @extends('layouts.main')
 @section('content')
 <div>
@@ -7,7 +8,7 @@
                 <div class="breadcrumbs-area clearfix">
                     <ul class="breadcrumbs pull-left">
                         <li><a href="{{ URL::TO("dashboard") }}">Home</a></li>
-                        <li><span>Recruitments</span></li>
+                        <li><span>Current Organisation Performance Reviews</span></li>
                     </ul>
                 </div>
             </div>
@@ -23,59 +24,53 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-6">
-                                <h4 class="header-title">All Recruitments</h4>
-                                @if(auth()->user()->role->id==env("HIRING_MANAGER_ROLE"))
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filterrecruitments">
-                                        Filter
-                                    </button>
-                                @endif
+                                {{-- <h4 class="header-title">All Performance Reviews</h4> --}}
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filterReviews">
+                                    Filter
+                                </button>
                             </div>
-                            @if(auth()->user()->role->id==env("HIRING_MANAGER_ROLE"))
-                                <div class="col-6 text-right">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createGoal">
-                                        Create Recruitment
-                                    </button>
-                                </div>
-                            @endif
+                            
                         </div><br>
                         <div class="data-tables">
                             <table id="dataTable" class="text-center">
                                 <thead class="bg-light text-capitalize">
                                     <tr>
                                         <th>Employee Name</th>
-                                        <th>National ID</th>
                                         <th>Organisation</th>
-                                        <th>Status</th>
-                                        <th>View Reviews </th>
-                                        <th>Action</th>
-                                        <th></th>
+                                        <th>Year</th>
+                                        <th>Quarter</th>
+                                        <th>Computed Rating </th>
+                                        <th>Full details</th>
+                                        <th>Self Review</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($recruitments as $recruitment)
+                                    @foreach ($reviews as $review)
                                     <tr>
-                                        <td>{{ $recruitment->candidate_name}}</td>
-                                        <td>{{ $recruitment->national_id }}</td>
-                                        <td>{{ $recruitment->organisation?->name }}</td>
-                                        <td>{{ $recruitment->decision_status }}</td>
+                                        <td>{{ $review->employee?->user?->first_name }} {{ $review->employee?->user?->last_name }}</td>
+                                        <td>{{ $review->organisation?->name }}</td>
+                                        <td>{{ $review->year }}</td>
+                                        <td>{{ $review->quarter->name }}</td>
+                                        <td>{{ $review->computed_rating }} %</td>
                                         <td>
-                                            <a href="{{ URL::TO("performance-reviews") }}?national_id={{ $recruitment->national_id }}" class="btn btn-primary">View</a>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#action{{ $recruitment->id }}">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#view{{ $review->id }}">
                                                 View
                                               </button>
                                         </td>
                                         
-                                        <td></td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#review{{ $review->id }}">
+                                                Review
+                                              </button>
+                                        </td>
                                         <td></td>
                                 
                                     </tr>
                                     
                                       
                                       <!-- The Modal -->
-                                      <div class="modal" id="view{{ $recruitment->id }}">
+                                      <div class="modal" id="view{{ $review->id }}">
                                         <div class="modal-dialog">
                                           <div class="modal-content">
                                       
@@ -87,10 +82,13 @@
                                       
                                             <!-- Modal body -->
                                             <div class="modal-body">
-                                                <p>Employee Name: {{ $recruitment?->candidate_name }}</p>
-                                                <p>National ID: {{ $recruitment->national_id }}</p>
-                                                <p>Organisation: {{ $recruitment?->organisation->name }}</p>
-                                                <p>National Id: {{ $recruitment?->national_id }}</p>
+                                                <p>Employee Name: {{ $review->employee?->user?->first_name }} {{ $review->employee?->user->last_name }}</p>
+                                                <p>Year: {{ $review->year }}</p>
+                                                <p>Quarter: {{ $review->quarter->name }}</p>
+                                                <p>Organisation: {{ $review->organisation->name }}</p>
+                                                <p>National Id: {{ $review->national_id }}</p>
+                                                <p>Computed Rating: {{ $review->computed_rating }}</p>
+                                                <p>Reviewer Rating: {{ $review->reviewer_rating }}</p>
                                               </div>
                                       
                                             <!-- Modal footer -->
@@ -102,21 +100,36 @@
                                         </div>
                                       </div>
 
-                                      <div class="modal" id="action{{ $recruitment->id }}">
+                                      <div class="modal" id="review{{ $review->id }}">
                                         <div class="modal-dialog">
                                           <div class="modal-content">
                                       
                                             <!-- Modal Header -->
                                             <div class="modal-header">
-                                              <h4 class="modal-title">Update Recruitment Status</h4>
+                                              <h4 class="modal-title">Self Review</h4>
                                               <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
                                       
                                             <!-- Modal body -->
                                             <div class="modal-body">
-                                               <a href="{{ URL::TO("update-recruitment-status") }}?status=accepted&recruitmentId={{ $recruitment->id }}" class="btn btn-info">Recruit</a>
-
-                                               <a href="{{ URL::TO("update-recruitment-status") }}?status=rejected&recruitmentId={{ $recruitment->id }}" class="btn btn-warning">Reject</a>
+                                                <form method="POST" action="{{ URL::TO("employee/self-review") }}">
+                                                    @csrf
+                                                    <input type="hidden" name="review_id" value="{{ $review->id }}" />
+                                                    <div class="form-group">
+                                                        <label>Comment</label>
+                                                        <input type="text" class="form-control" name="employee_comment" required />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Self Rating</label>
+                                                        <select name="self_review" id="self_review" class="form-control">
+                                                            @foreach ($ratings as $rating )
+                                                                <option value="{{ $rating }}">{{ $rating }}</option>
+                                                            @endforeach
+                                                            
+                                                        </select>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                </form>
                                             </div>
                                       
                                             <!-- Modal footer -->
@@ -137,116 +150,6 @@
           
             
         </div>
-    </div>
-</div>
-
-{{-- modal --}}
-<div class="modal" id="createGoal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-  
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Create Recruitment</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-  
-        <!-- Modal body -->
-        <div class="modal-body">
-          <form method="POST" action="{{ URL::TO('create-recruitment') }}">
-            @csrf
-            <h5>Recruitment</h5><br>
-            
-            <div class="form-group col-6">
-                <label>National id</label>
-                <input type="text" class="form-control" name="national_id" required />
-            </div>
-
-            <div class="form-group col-6">
-                <label>Candidate Name</label>
-                <input type="text" class="form-control" name="candidate_name" required />
-            </div>
-
-            @if($isAdmin)
-                <div class="form-group">
-                    <label>Select Organisation</label>
-                    <select  name="current_organisation_id" class="form-control">
-                        @foreach ($organisations as $organisation )
-                            <option value="{{ $organisation->id }}">{{ $organisation->name }}</option>
-                        @endforeach
-                        
-                    </select>
-                </div>
-            @else
-                <input type="hidden" name="organisation_id" value="{{ $organisation->id }}" />
-            @endif
-            <hr />
-            <div class="text-center">
-                <button class="btn btn-primary" type="submit">Submit</button>
-            </div>
-          </form>
-        
-        </div>
-  
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        </div>
-  
-      </div>
-    </div>
-</div>
-
-
-
-<div class="modal" id="filterrecruitments">
-    <div class="modal-dialog">
-      <div class="modal-content">
-  
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Filter Performance Review</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-  
-        <!-- Modal body -->
-        <div class="modal-body">
-          <form method="GET" action="{{ URL::TO('recruitments') }}">
-            @csrf
-                @if(auth()->user()->role_id==env("ADMIN_ROLE"))
-            
-                    <div class="form-group" id="organisation-field">
-                        <label>Select Organisation</label>
-                        <select name="organisation_id" id="organisation-select2" class="form-control">
-                            <option value="{{ 0 }}">Select Organisation</option>
-                            @foreach ($organisations as $organisation )
-                                <option value="{{ $organisation->id }}">{{ $organisation->name }}</option>
-                            @endforeach
-                            
-                        </select>
-                    </div>
-                @endif
-
-                <div class="form-group">
-                    <label>Filter by National Id</label>
-                    <input type="text" class="form-control" name="national_id" id="national_id"/>
-                </div>
-                
-
-            <hr />
-            <div class="text-center">
-                <button class="btn btn-primary" type="submit">Submit</button>
-            </div>
-          </form>
-        
-        </div>
-  
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        </div>
-  
-      </div>
     </div>
 </div>
 

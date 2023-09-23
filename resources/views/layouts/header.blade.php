@@ -92,7 +92,7 @@
                                 <li><a href="{{ URL::TO("employee/goals") }}"><i class="ti-receipt"></i> <span>Goals</span></a></li>
                                 <li><a href="{{ URL::TO("employee/organisations") }}"><i class="ti-palette"></i> <span>Organisations</span></a></li>
                                 <li><a href="{{ URL::TO("employee/recruitments") }}"><i class="ti-layout-sidebar-left"></i> <span>Recruitment</span></a></li>
-                                <li><a href="{{ URL::TO("employee/reviews") }}"><i class="ti-layout-sidebar-left"></i> <span>Reviews</span></a></li>
+                                <li><a href="{{ URL::TO("employee/performance-reviews") }}"><i class="ti-layout-sidebar-left"></i> <span>Reviews</span></a></li>
                                 <li><a href="{{ URL::TO('signout') }}"><i class="fa fa-sign-out"></i> <span>Signout</span></a></li>
                             </ul>
                         </nav>

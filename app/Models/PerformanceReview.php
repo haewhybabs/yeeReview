@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PerformanceReview extends Model
 {
     use HasFactory;
-    protected $fillable = ['employee_id','organisation_id','review_date','computed_rating','year','quarter_id','reviewer_rating','national_id','organisation_comment','employee_comment'];
+    protected $fillable = ['employee_id','organisation_id','review_date','computed_rating','year','quarter_id','reviewer_rating','national_id','organisation_comment','employee_comment','self_review'];
 
     public function organisation(){
         return $this->belongsTo(Organisation::class,'organisation_id','id');

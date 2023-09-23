@@ -45,6 +45,12 @@ class RecruitmentService
     public function findByOrganisation($id){
         return $this->recruitmentRepository->findByOrganisationId($id);
     }
+    public function filterRecruitments($nationalId,$organisationId){
+        return $this->recruitmentRepository->filterRecruitments($nationalId,$organisationId);
+    }
+    public function findByNationalId($nationalId){
+        return $this->recruitmentRepository->findByNationalId($nationalId);
+    }
 
 }
 ?>

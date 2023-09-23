@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('reviewer_rating');
             $table->text('organisation_comment')->nullable();
             $table->text('employee_comment')->nullable();
+            $table->text('self_review')->nullable();
             $table->string('national_id');
             $table->timestamps();
         });

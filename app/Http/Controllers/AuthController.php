@@ -32,6 +32,12 @@ class AuthController extends Controller
         $user = $this->userService->findByEmail($request->email);
         if($user){
             if(Auth::attempt($login)){
+                if($user->role_id == env("ORGANISATION_ROLE")){
+                    $status = $user->organisation->status;
+                    if($status != 'approve'){
+                        return redirect()->back()->with(['alert-type'=>'error','message'=>'Unable to login to your account, account needs admin approval']);
+                    }
+                }
                return redirect('/dashboard');
             }
         }
@@ -82,7 +88,8 @@ class AuthController extends Controller
         $organisation = $this->organisationService->create($data);
         
         if($organisation){
-            return redirect('/dashboard');
+
+            return redirect('/login')->with(['alert-type'=>'success','message'=>'Your registration is successful, you will be able to login when an admin approves you.']);
         }
 
     }

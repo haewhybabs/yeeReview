@@ -1,3 +1,4 @@
+
 @extends('layouts.main')
 @section('content')
 <div>
@@ -23,16 +24,18 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-6">
-                                <h4 class="header-title">All Performance Reviews</h4>
+                                {{-- <h4 class="header-title">All Performance Reviews</h4> --}}
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filterReviews">
                                     Filter
                                 </button>
                             </div>
+                            @if(auth()->user()->role_id == env("ADMIN_ROLE") || auth()->user()->role_id==env("ORGANISATION_ROLE"))
                             <div class="col-6 text-right">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createGoal">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createReview">
                                     Create Review
                                 </button>
                             </div>
+                            @endif
                         </div><br>
                         <div class="data-tables">
                             <table id="dataTable" class="text-center">
@@ -55,7 +58,7 @@
                                         <td>{{ $review->organisation?->name }}</td>
                                         <td>{{ $review->year }}</td>
                                         <td>{{ $review->quarter->name }}</td>
-                                        <td>{{ $review->computed_rating }}</td>
+                                        <td>{{ $review->computed_rating }} %</td>
                                         <td>
                                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#view{{ $review->id }}">
                                                 View
@@ -112,13 +115,13 @@
 </div>
 
 {{-- modal --}}
-<div class="modal" id="createGoal">
+<div class="modal" id="createReview">
     <div class="modal-dialog">
       <div class="modal-content">
   
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Create Goal</h4>
+          <h4 class="modal-title">Create Performance Review</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
   
@@ -231,7 +234,7 @@
   
         <!-- Modal body -->
         <div class="modal-body">
-          <form method="GET" action="{{ URL::TO('goals') }}">
+          <form method="GET" action="{{ URL::TO('performance-reviews') }}">
             @csrf
             
             @if($isAdmin)

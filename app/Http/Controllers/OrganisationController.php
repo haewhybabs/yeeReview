@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\EmployeeService;
 use App\Services\OrganisationService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -10,11 +11,13 @@ class OrganisationController extends Controller
 {
     protected $userService;
     protected $organisationService;
+    protected $employeeService;
 
-    public function __construct(UserService $userService, OrganisationService $organisationService)
+    public function __construct(UserService $userService, OrganisationService $organisationService, EmployeeService $employeeService)
     {
         $this->userService = $userService;
         $this->organisationService = $organisationService;
+        $this->employeeService = $employeeService;
     }
 
 
@@ -32,5 +35,17 @@ class OrganisationController extends Controller
 
         return redirect()->back()->with(['alert-type'=>'error','message'=>'Error occured']);
         
+    }
+
+    public function employeeOrganisationList(){
+        $user = auth()->user();
+        $nationalId = $user->employee->national_id;
+        $employees = $this->employeeService->findByNationalId($nationalId);
+        $organisations = [];
+        foreach($employees as $e){
+            $organisations[] = $this->organisationService->findById($e->current_organisation_id);
+        }
+        return view('organisations.employeeList',compact('organisations'));
+
     }
 }

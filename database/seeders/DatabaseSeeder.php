@@ -18,7 +18,9 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             DepartmentSeeder::class,
-            QuarterSeeder::class
+            QuarterSeeder::class,
+            OrganisationSeeder::class,
+            EmployeeSeeder::class
         ]);
     }
 }

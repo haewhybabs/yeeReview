@@ -23,7 +23,7 @@ class OrganisationSeeder extends Seeder
             'website' => 'https://www.companya.com',
             'user_id' => 4,
             'email' => 'info@companya.com',
-            'status' => 'active',
+            'status' => 'approve',
         ]);
 
         Organisation::create([
@@ -35,7 +35,7 @@ class OrganisationSeeder extends Seeder
             'website' => 'https://www.companyb.com',
             'user_id' => 5,
             'email' => 'info@companyb.com',
-            'status' => 'active',
+            'status' => 'approve',
         ]);
     }
 }

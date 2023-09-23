@@ -24,19 +24,8 @@
                         <div class="row">
                             <div class="col-6">
                                 <h4 class="header-title">All Recruitments</h4>
-                                @if(auth()->user()->role->id==env("HIRING_MANAGER_ROLE"))
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filterrecruitments">
-                                        Filter
-                                    </button>
-                                @endif
                             </div>
-                            @if(auth()->user()->role->id==env("HIRING_MANAGER_ROLE"))
-                                <div class="col-6 text-right">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createGoal">
-                                        Create Recruitment
-                                    </button>
-                                </div>
-                            @endif
+                           
                         </div><br>
                         <div class="data-tables">
                             <table id="dataTable" class="text-center">
@@ -47,7 +36,7 @@
                                         <th>Organisation</th>
                                         <th>Status</th>
                                         <th>View Reviews </th>
-                                        <th>Action</th>
+                                        {{-- <th>Action</th> --}}
                                         <th></th>
                                         <th></th>
                                     </tr>
@@ -62,11 +51,11 @@
                                         <td>
                                             <a href="{{ URL::TO("performance-reviews") }}?national_id={{ $recruitment->national_id }}" class="btn btn-primary">View</a>
                                         </td>
-                                        <td>
+                                        {{-- <td>
                                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#action{{ $recruitment->id }}">
                                                 View
                                               </button>
-                                        </td>
+                                        </td> --}}
                                         
                                         <td></td>
                                         <td></td>
@@ -102,31 +91,7 @@
                                         </div>
                                       </div>
 
-                                      <div class="modal" id="action{{ $recruitment->id }}">
-                                        <div class="modal-dialog">
-                                          <div class="modal-content">
-                                      
-                                            <!-- Modal Header -->
-                                            <div class="modal-header">
-                                              <h4 class="modal-title">Update Recruitment Status</h4>
-                                              <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            </div>
-                                      
-                                            <!-- Modal body -->
-                                            <div class="modal-body">
-                                               <a href="{{ URL::TO("update-recruitment-status") }}?status=accepted&recruitmentId={{ $recruitment->id }}" class="btn btn-info">Recruit</a>
-
-                                               <a href="{{ URL::TO("update-recruitment-status") }}?status=rejected&recruitmentId={{ $recruitment->id }}" class="btn btn-warning">Reject</a>
-                                            </div>
-                                      
-                                            <!-- Modal footer -->
-                                            <div class="modal-footer">
-                                              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                            </div>
-                                      
-                                          </div>
-                                        </div>
-                                      </div>
+                                    
                                     @endforeach
                                 </tbody>
                             </table>
@@ -141,114 +106,7 @@
 </div>
 
 {{-- modal --}}
-<div class="modal" id="createGoal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-  
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Create Recruitment</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-  
-        <!-- Modal body -->
-        <div class="modal-body">
-          <form method="POST" action="{{ URL::TO('create-recruitment') }}">
-            @csrf
-            <h5>Recruitment</h5><br>
-            
-            <div class="form-group col-6">
-                <label>National id</label>
-                <input type="text" class="form-control" name="national_id" required />
-            </div>
 
-            <div class="form-group col-6">
-                <label>Candidate Name</label>
-                <input type="text" class="form-control" name="candidate_name" required />
-            </div>
-
-            @if($isAdmin)
-                <div class="form-group">
-                    <label>Select Organisation</label>
-                    <select  name="current_organisation_id" class="form-control">
-                        @foreach ($organisations as $organisation )
-                            <option value="{{ $organisation->id }}">{{ $organisation->name }}</option>
-                        @endforeach
-                        
-                    </select>
-                </div>
-            @else
-                <input type="hidden" name="organisation_id" value="{{ $organisation->id }}" />
-            @endif
-            <hr />
-            <div class="text-center">
-                <button class="btn btn-primary" type="submit">Submit</button>
-            </div>
-          </form>
-        
-        </div>
-  
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        </div>
-  
-      </div>
-    </div>
-</div>
-
-
-
-<div class="modal" id="filterrecruitments">
-    <div class="modal-dialog">
-      <div class="modal-content">
-  
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Filter Performance Review</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-  
-        <!-- Modal body -->
-        <div class="modal-body">
-          <form method="GET" action="{{ URL::TO('recruitments') }}">
-            @csrf
-                @if(auth()->user()->role_id==env("ADMIN_ROLE"))
-            
-                    <div class="form-group" id="organisation-field">
-                        <label>Select Organisation</label>
-                        <select name="organisation_id" id="organisation-select2" class="form-control">
-                            <option value="{{ 0 }}">Select Organisation</option>
-                            @foreach ($organisations as $organisation )
-                                <option value="{{ $organisation->id }}">{{ $organisation->name }}</option>
-                            @endforeach
-                            
-                        </select>
-                    </div>
-                @endif
-
-                <div class="form-group">
-                    <label>Filter by National Id</label>
-                    <input type="text" class="form-control" name="national_id" id="national_id"/>
-                </div>
-                
-
-            <hr />
-            <div class="text-center">
-                <button class="btn btn-primary" type="submit">Submit</button>
-            </div>
-          </form>
-        
-        </div>
-  
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        </div>
-  
-      </div>
-    </div>
-</div>
 
 
 <script>

@@ -60,10 +60,7 @@ class PerformanceReviewService
 
         foreach ($goals as $goal) {
             $achievementStatusScore = $goal->status=='completed' ? 100 : 0;
-    
             $daysDifference = $goal->delivered_days - $goal->expected_days;
-    
-            
             $earlyCompletionThreshold = -7; // Completed 7 or more days early
             $onTimeThreshold = 0; // Completed on or before the expected day
             $delayedThreshold = 7; // Completed within 7 days after the expected day
@@ -79,10 +76,14 @@ class PerformanceReviewService
             }
     
            
-            $weightedScore = ($achievementStatusScore + $timelinessScore) / 2 * $goal->weight;
+            $weightedScore = (($achievementStatusScore + $timelinessScore) / 2 ) + $goal->weight;
     
             $totalScore += $weightedScore;
         }
+        $count = count($goals);
+        $totalScore = $count >0 ? $totalScore/count($goals): 0;
+
+        $totalScore = min($totalScore, 100);
     
         return $totalScore;
 

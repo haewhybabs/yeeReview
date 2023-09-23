@@ -31,6 +31,8 @@ class GoalController extends Controller
         $employees =[];
         $employeeId = $request->query('employee_id');
         $organisationId = $request->query('organisation_id');
+        $organisation=null;
+        $employees=[];
         if($user?->role->id ==env("ORGANISATION_ROLE")){
             $isAdmin = false;
             $employees = $this->employeeService->findByOrganisation($user->organisation->id);
@@ -68,6 +70,19 @@ class GoalController extends Controller
 
         // return redirect()->back()->with(['alert-type'=>'success','message'=>'Goal has been successfully created']);
 
+    }
+
+    public function employeeList(Request $request){
+        $user = auth()->user();
+        $employeeId = $user->employee->id;
+        $organisationId = $user->employee->current_organisation_id;
+        $goals = $this->goalService->findByEmployeeId($employeeId);
+        $organisation = $this->organisationService->findById($organisationId);
+        $isAdmin = false;
+        $employees = [];
+        $organisations = [];
+        $quarters = Quarter::all();
+        return view('goals.employeeList',compact('goals','organisations','quarters','isAdmin','organisation','employees'));
     }
 
   

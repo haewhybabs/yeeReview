@@ -25,7 +25,7 @@
                             <div class="col-6">
                                 <h4 class="header-title">All Employees</h4>
                             </div>
-                            @if(auth()->user()->role_id == env("ADMIN_ROLE") || auth()->user()->role_id == env("ORGANISATION_ROLE "))
+                            @if(auth()->user()->role_id == env("ADMIN_ROLE") || auth()->user()->role_id == env("ORGANISATION_ROLE"))
                                 <div class="col-6 text-right">
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createEmployee">
                                         Create Employee

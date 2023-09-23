@@ -34,10 +34,19 @@ class PerformanceReviewController extends Controller
         $employeeId = $request->query('employee_id');
         $organisationId = $request->query('organisation_id');
         $nationalId = $request->query('national_id');
-        if($user?->role->id ==env("ORGANISATION_ROLE")){
+        $organisation=null;
+        $employees = [];
+        if($user?->role->id ==env("ORGANISATION_ROLE") || $user?->role->id ==env("HIRING_MANAGER_ROLE")){
             $isAdmin = false;
-            $employees = $this->employeeService->findByOrganisation($user->organisation->id);
-            $organisation = $this->organisationService->findById($user->organisation->id);
+            if($user?->role->id==env("HIRING_MANAGER_ROLE")){
+                $employees = $this->employeeService->findByOrganisation($user->hiringManager->organisation_id);
+                $organisation = $this->organisationService->findById($user->hiringManager->organisation_id);
+            }
+            else{
+                $employees = $this->employeeService->findByOrganisation($user->organisation->id);
+                $organisation = $this->organisationService->findById($user->organisation->id);
+            }
+            
             $organisationId = $organisation->id;
         }
         $reviews = $this->performanceReviewService->filterPerformanceReviews($employeeId,$organisationId,$nationalId);
@@ -80,7 +89,30 @@ class PerformanceReviewController extends Controller
         }
         
 
-        return redirect()->back()->with(['alert-type'=>'success','message'=>'Goal has been successfully created']);
+        return redirect()->back()->with(['alert-type'=>'success','message'=>'Review has been successfully created']);
 
+    }
+    public function employeePerformanceList(){
+        $user = auth()->user();
+        $employeeId = $user->employee->id;
+        $organisationId=null;
+        $nationalId = null;
+        $reviews = $this->performanceReviewService->filterPerformanceReviews($employeeId,$organisationId,$nationalId);
+
+        $ratings = ['Excellent - A','Satisfactory - B','Average -C','Poor -D','Very Poor - E', 'Failed - F'];
+        return view('reviews.employeeList',compact('reviews','ratings'));
+    }
+    public function handleSelfReview(Request $request){
+        $validatedData = $request->validate([
+            'employee_comment'=>'required',
+            'self_review'=>"required",
+        ]);
+        $data = array(
+            'employee_comment'=>$request->employee_comment,
+            'self_review'=>$request->self_review
+        );
+        $update = $this->performanceReviewService->updatePerformanceReview($data,$request->review_id);
+        return redirect()->back()->with(['alert-type'=>'success','message'=>'Self review has been successfully created']);
+        
     }
 }

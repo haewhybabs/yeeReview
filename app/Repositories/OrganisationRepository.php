@@ -38,5 +38,6 @@ class OrganisationRepository
     public function findByStatus($status){
         return Organisation::where('status',$status)->get();
     }
+    
 }
 ?>
