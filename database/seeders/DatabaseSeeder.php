@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             DepartmentSeeder::class,
             QuarterSeeder::class,
             OrganisationSeeder::class,
-            EmployeeSeeder::class
+            EmployeeSeeder::class,
+            HiringManagerSeeder::class
         ]);
     }
 }

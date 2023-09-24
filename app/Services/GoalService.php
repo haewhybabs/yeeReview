@@ -58,6 +58,8 @@ class GoalService
     public function fetchGoalByDetails($data){
         return $this->goalRepository->fetchGoalByDetails($data);
     }
-   
+    public function findByEmployeeIdAndStatus($id,$status){
+        return $this->goalRepository->findByEmployeeIdAndStatus($id,$status);
+    }
 }
 ?>

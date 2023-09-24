@@ -1,15 +1,18 @@
 <?php
 namespace App\Services;
 
+use App\Repositories\EmployeeRepository;
 use App\Repositories\OrganisationRepository;
 
 class OrganisationService
 {
     protected $organisationRepository;
+    protected $employeeRepository;
 
-    public function __construct(OrganisationRepository $organisationRepository)
+    public function __construct(OrganisationRepository $organisationRepository,EmployeeRepository $employeeRepository)
     {
         $this->organisationRepository = $organisationRepository;
+        $this->employeeRepository = $employeeRepository;
     }
 
     public function create(array $attributes)
@@ -45,6 +48,14 @@ class OrganisationService
     }
     public function findByStatus($status){
         return $this->organisationRepository->findByStatus($status);
+    }
+    public function findByNationalId($nationalId){
+        $employees = $this->employeeRepository->findByNationalId($nationalId);
+        $organisations = [];
+        foreach($employees as $e){
+            $organisations[] = $this->findById($e->current_organisation_id);
+        }
+        return $organisations;
     }
    
 }

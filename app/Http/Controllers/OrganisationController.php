@@ -40,11 +40,7 @@ class OrganisationController extends Controller
     public function employeeOrganisationList(){
         $user = auth()->user();
         $nationalId = $user->employee->national_id;
-        $employees = $this->employeeService->findByNationalId($nationalId);
-        $organisations = [];
-        foreach($employees as $e){
-            $organisations[] = $this->organisationService->findById($e->current_organisation_id);
-        }
+        $organisations = $this->organisationService->findByNationalId($nationalId);
         return view('organisations.employeeList',compact('organisations'));
 
     }

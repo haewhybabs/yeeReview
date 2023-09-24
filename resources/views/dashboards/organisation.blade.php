@@ -31,8 +31,8 @@
                     <div class="single-report">
                         <div class="s-sale-inner pt--30 mb-3">
                             <div class="s-report-title d-flex justify-content-between">
-                                <h4 class="header-title mb-0">Recruitments</h4>
-                                <p>{{ $recruitments }}</p>
+                                <h4 class="header-title mb-0">Goals</h4>
+                                <p>{{ $goals }}</p>
                             </div>
                         </div>
                         {{-- <canvas id="coin_sales4" height="100"></canvas> --}}
@@ -64,8 +64,8 @@
                     <div class="single-report">
                         <div class="s-sale-inner pt--30 mb-3">
                             <div class="s-report-title d-flex justify-content-between">
-                                <h4 class="header-title mb-0">Organisations</h4>
-                                <p>{{ $organisations }}</p>
+                                <h4 class="header-title mb-0">Hiring Managers</h4>
+                                <p>{{ $hiringManagers }}</p>
                                 
                             </div>
                         </div>

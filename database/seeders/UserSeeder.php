@@ -56,5 +56,12 @@ class UserSeeder extends Seeder
             'password'=>bcrypt('password'),
             'role_id'=>env("HIRING_MANAGER_ROLE"),
         ]);
+        DB::table('users')->insert([
+            'first_name'=>'Hiring2',
+            'last_name'=>'Manager2',
+            'email'=>'hiring2@gmail.com',
+            'password'=>bcrypt('password'),
+            'role_id'=>env("HIRING_MANAGER_ROLE"),
+        ]);
     }
 }

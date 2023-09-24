@@ -76,5 +76,8 @@ class GoalRepository
         ->first();
         return $goal;
     }
+    public function findByEmployeeIdAndStatus($id,$status){
+        return Goal::where('status','completed')->where('employee_id',$id)->get();
+    }
 }
 ?>

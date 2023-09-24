@@ -49,7 +49,7 @@
                     @if(auth()->user()->role_id==env("ADMIN_ROLE"))
                         <nav>
                             <ul class="metismenu" id="menu">
-                                <li><a href="maps.html"><i class="ti-dashboard"></i> <span>Dashboard</span></a></li>
+                                <li><a href="{{ URL::TO("dashboard") }}"><i class="ti-dashboard"></i> <span>Dashboard</span></a></li>
                                 <li><a href="{{ URL::TO("hiring-managers") }}"><i class="ti-receipt"></i> <span>Hiring Managers</span></a></li>
                                 <li><a href="{{ URL::TO("organisations") }}"><i class="ti-palette"></i> <span>Organisations</span></a></li>
                                 <li><a href="{{ URL::TO("employees") }}"><i class="fa fa-user"></i> <span>Employees</span></a></li>
@@ -88,7 +88,7 @@
                     @elseif (auth()->user()->role_id==env('EMPLOYEE_ROLE'))
                         <nav>
                             <ul class="metismenu" id="menu">
-                                <li><a href="maps.html"><i class="ti-dashboard"></i> <span>Dashboard</span></a></li>
+                                <li><a href="{{ URL::TO("dashboard") }}"><i class="ti-dashboard"></i> <span>Dashboard</span></a></li>
                                 <li><a href="{{ URL::TO("employee/goals") }}"><i class="ti-receipt"></i> <span>Goals</span></a></li>
                                 <li><a href="{{ URL::TO("employee/organisations") }}"><i class="ti-palette"></i> <span>Organisations</span></a></li>
                                 <li><a href="{{ URL::TO("employee/recruitments") }}"><i class="ti-layout-sidebar-left"></i> <span>Recruitment</span></a></li>
@@ -99,7 +99,7 @@
                     @else
                         <nav>
                             <ul class="metismenu" id="menu">
-                                <li><a href="maps.html"><i class="ti-dashboard"></i> <span>Dashboard</span></a></li>
+                                <li><a href="{{ URL::TO("dashboard") }}"><i class="ti-dashboard"></i> <span>Dashboard</span></a></li>
                                 <li><a href="{{ URL::TO("hiring-manager/view") }}"><i class="ti-receipt"></i> <span>Hiring Manager</span></a></li>
                                 <li><a href="{{ URL::TO("hiring-manager/employee") }}"><i class="fa fa-user"></i> <span>Employees</span></a></li>
                                 <li><a href="{{ URL::TO("recruitments") }}"><i class="ti-layout-sidebar-left"></i> <span>Recruitment</span></a></li>
